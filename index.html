@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUCARD | Профессиональные киберуслуги</title>
+    <style>
+        :root {
+            --hacker-green: #0f0;
+            --hacker-red: #f00;
+            --dark-bg: #000;
+            --glow-color: rgba(0, 255, 0, 0.7);
+            --glow-red: rgba(255, 0, 0, 0.7);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--hacker-green);
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        .matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        
+        /* Эффект старого монитора */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0,255,0,0.06) 50%),
+                linear-gradient(rgba(0,0,0,0.25) 50%);
+            background-size: 100% 4px;
+            z-index: 1;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--hacker-green);
+            box-shadow: 0 0 20px var(--glow-color);
+            margin-top: 50px;
+            border-radius: 5px;
+            animation: contentFadeIn 2s ease-out;
+        }
+        
+        @keyframes contentFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 3em;
+            text-shadow: 0 0 10px var(--hacker-red);
+            margin-bottom: 20px;
+            animation: glowRed 2s ease-in-out infinite alternate, textFlicker 3s linear infinite;
+            letter-spacing: 2px;
+            position: relative;
+            color: var(--hacker-red);
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--hacker-red);
+            box-shadow: 0 0 10px var(--hacker-red);
+            animation: linePulseRed 3s ease-in-out infinite;
+        }
+        
+        @keyframes linePulseRed {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes textFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+            }
+            20%, 22%, 24%, 55% {
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes glowRed {
+            from {
+                text-shadow: 0 0 5px var(--hacker-red);
+            }
+            to {
+                text-shadow: 0 0 20px var(--hacker-red), 0 0 30px var(--hacker-red);
+            }
+        }
+        
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 0 0 5px var(--hacker-green);
+            animation: textFlicker 5s linear infinite;
+        }
+        
+        .contact {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid var(--hacker-green);
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0 0 15px var(--glow-color);
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .contact:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px var(--glow-color);
+        }
+        
+        a {
+            color: var(--hacker-green);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        a:hover {
+            text-shadow: 0 0 10px var(--hacker-green);
+        }
+        
+        a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--hacker-green);
+            transition: width 0.3s;
+        }
+        
+        a:hover::after {
+            width: 100%;
+        }
+        
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px var(--hacker-green);
+            }
+            to {
+                text-shadow: 0 0 20px var(--hacker-green), 0 0 30px var(--hacker-green);
+            }
+        }
+        
+        .cursor {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Стили для выпадающего прайс-листа */
+        .price-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+        
+        .price-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--hacker-green);
+            border: 1px solid var(--hacker-green);
+            padding: 12px 18px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px var(--glow-color);
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .price-btn:hover {
+            background: var(--hacker-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+        
+        .price-content {
+            display: none;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--hacker-green);
+            padding: 15px;
+            margin-top: 5px;
+            width: 350px;
+            text-align: left;
+            max-height: 70vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px var(--glow-color);
+            border-radius: 3px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .price-content p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            padding: 5px;
+            border-left: 2px solid var(--hacker-green);
+            padding-left: 10px;
+            transition: all 0.2s;
+        }
+        
+        .price-content p:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+        
+        /* Красные категории с эффектом свечения */
+        .price-category {
+            color: var(--hacker-red);
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--hacker-red);
+            padding-bottom: 5px;
+            text-shadow: 0 0 5px var(--hacker-red);
+            animation: glowRed 2s ease-in-out infinite alternate;
+        }
+        
+        /* Красные цены с эффектом свечения */
+        .price-item {
+            color: var(--hacker-red);
+            text-shadow: 0 0 5px var(--hacker-red);
+            animation: glowRed 2s ease-in-out infinite alternate;
+        }
+        
+        .telegram-link {
+            color: var(--hacker-green);
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .telegram-link::before {
+            content: "🔗";
+            margin-right: 5px;
+        }
+        
+        /* Стили для крипового текста */
+        .creepy-text {
+            position: fixed;
+            color: #f00;
+            font-size: 24px;
+            text-shadow: 0 0 10px #f00;
+            opacity: 0;
+            z-index: 1000;
+            pointer-events: none;
+            animation: creepyAppear 5s linear forwards, creepyGlow 0.5s ease-in-out infinite alternate;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            transform: rotate(-5deg);
+        }
+        
+        @keyframes creepyAppear {
+            0% { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+            10% { opacity: 0.9; transform: scale(1.1) rotate(-5deg); }
+            90% { opacity: 0.9; transform: scale(1.1) rotate(-5deg); }
+            100% { opacity: 0; transform: scale(1.5) rotate(-5deg); }
+        }
+        
+        @keyframes creepyGlow {
+            from { text-shadow: 0 0 5px #f00, 0 0 10px #f00; }
+            to { text-shadow: 0 0 15px #f00, 0 0 25px #f00, 0 0 35px #f00; }
+        }
+
+        .creepy-text {
+            animation: creepyAppear 3s linear forwards, creepyGlow 0.5s ease-in-out infinite alternate;
+        }
+
+        
+
+.terminal {
+    width: 80%;
+    max-width: 700px;
+    margin: 30px auto;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    overflow: hidden;
+}
+
+.terminal-header {
+    background: rgba(0, 20, 0, 0.5);
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #0f0;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.terminal-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 255, 0, 0.5);
+}
+
+.terminal-btn.red { background: #ff5f56; }
+.terminal-btn.yellow { background: #ffbd2e; }
+.terminal-btn.green { background: #27c93f; }
+
+.terminal-title {
+    margin-left: 15px;
+    color: #0f0;
+    font-size: 0.9em;
+}
+
+.terminal-body {
+    padding: 15px;
+    height: 200px;
+    overflow-y: auto;
+    font-family: 'Courier New', monospace;
+    line-height: 1.5;
+}
+
+.terminal-input {
+    padding: 10px 15px;
+    border-top: 1px solid #0f0;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 10, 0, 0.3);
+}
+
+.prompt {
+    color: #0f0;
+    margin-right: 10px;
+}
+
+@keyframes terminalType {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+        .network-map {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .node {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #0f0;
+            transform: scale(0);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .node:hover {
+            transform: scale(1.5);
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: rgba(0, 255, 0, 0.3);
+            transform-origin: left center;
+        }
+
+        /* Стили для кибер-артефактов */
+        .cyber-artifact {
+            position: fixed;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+            text-shadow: 0 0 5px #0f0;
+        }
+
+        /* Стили для музыкального плеера */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--hacker-green);
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px var(--glow-color);
+            width: 300px;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .music-player.active {
+            display: block;
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--hacker-green);
+            padding-bottom: 5px;
+        }
+
+        .player-title {
+            color: var(--hacker-green);
+            text-shadow: 0 0 5px var(--hacker-green);
+            font-size: 1.1em;
+            letter-spacing: 1px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .player-btn {
+            background: rgba(0, 20, 0, 0.5);
+            color: var(--hacker-green);
+            border: 1px solid var(--hacker-green);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+            border-radius: 3px;
+            box-shadow: 0 0 5px var(--glow-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+
+        .player-btn:hover, .player-btn:active {
+            background: var(--hacker-red);
+            color: #000;
+            border-color: var(--hacker-red);
+            box-shadow: 0 0 15px var(--glow-red);
+            transform: scale(1.1);
+        }
+
+        .track-info {
+            margin-top: 10px;
+            color: var(--hacker-green);
+            font-size: 0.9em;
+            text-shadow: 0 0 3px var(--hacker-green);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            gap: 8px;
+        }
+
+        .volume-icon {
+            color: var(--hacker-green);
+            text-shadow: 0 0 3px var(--hacker-green);
+        }
+
+        .volume-slider {
+            flex-grow: 1;
+            cursor: pointer;
+            -webkit-appearance: none;
+            height: 3px;
+            background: rgba(0, 255, 0, 0.3);
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--hacker-green);
+            cursor: pointer;
+            box-shadow: 0 0 5px var(--hacker-green);
+        }
+
+        .progress-container {
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(0, 255, 0, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--hacker-green);
+            width: 0%;
+            box-shadow: 0 0 5px var(--hacker-green);
+            transition: width 0.1s linear;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.7em;
+            color: var(--hacker-green);
+            text-shadow: 0 0 2px var(--hacker-green);
+        }
+
+        .playlist {
+            margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid rgba(0, 255, 0, 0.3);
+            padding-top: 10px;
+        }
+
+        .playlist-item {
+            padding: 8px;
+            cursor: pointer;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.8em;
+            color: var(--hacker-green);
+            margin-bottom: 3px;
+        }
+
+        .playlist-item:hover, .playlist-item:active {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 2px solid var(--hacker-red);
+            color: var(--hacker-red);
+            text-shadow: 0 0 5px var(--hacker-red);
+        }
+
+        .playlist-item.active {
+            background: rgba(255, 0, 0, 0.2);
+            border-left: 2px solid var(--hacker-red);
+            color: var(--hacker-red);
+            text-shadow: 0 0 5px var(--hacker-red);
+        }
+
+        /* Анимация волны для визуализации музыки */
+        .wave-container {
+            display: flex;
+            align-items: flex-end;
+            height: 30px;
+            margin-top: 10px;
+            gap: 3px;
+        }
+
+        .wave-bar {
+            width: 3px;
+            background: var(--hacker-green);
+            box-shadow: 0 0 3px var(--hacker-green);
+            transition: height 0.2s ease-out;
+            border-radius: 2px;
+        }
+
+        /* Кнопка закрытия плеера */
+        .close-player {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--hacker-green);
+            cursor: pointer;
+            font-size: 0.8em;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+
+        .close-player:hover {
+            opacity: 1;
+            transform: scale(1.2);
+            color: var(--hacker-red);
+        }
+
+        /* Кнопка открытия плеера */
+        .open-player-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 99;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--hacker-green);
+            border: 1px solid var(--hacker-green);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px var(--glow-color);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .open-player-btn:hover {
+            background: var(--hacker-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="network-map" id="networkMap"></div>
+
+    <canvas id="matrix" class="matrix"></canvas>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-btn red"></span>
+                <span class="terminal-btn yellow"></span>
+                <span class="terminal-btn green"></span>
+            </div>
+            <div class="terminal-title">root@alucard:~</div>
+        </div>
+        <div class="terminal-body" id="terminalOutput"></div>
+        <div class="terminal-input">
+            <span class="prompt">$</span>
+            <span class="cursor" id="terminalCursor">_</span>
+        </div>
+    </div>
+
+    <!-- Кнопка открытия плеера -->
+    <button class="open-player-btn" id="openPlayerBtn">
+        <span>🎵</span>
+        <span>Открыть плеер</span>
+    </button>
+
+    <!-- Музыкальный плеер -->
+    <div class="music-player" id="musicPlayer">
+        <div class="close-player" id="closePlayer">✕</div>
+        <div class="player-header">
+            <div class="player-title">CYBER PLAYER</div>
+            <div class="wave-container" id="waveContainer">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+        </div>
+        <div class="track-info" id="currentTrack">Трек не выбран</div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="time-info">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+        <div class="player-controls">
+            <button class="player-btn" id="prevBtn" title="Предыдущий">⏮</button>
+            <button class="player-btn" id="playBtn" title="Воспроизвести">▶</button>
+            <button class="player-btn" id="nextBtn" title="Следующий">⏭</button>
+        </div>
+        <div class="volume-control">
+            <span class="volume-icon">🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+        </div>
+        <div class="playlist" id="playlist">
+            <div class="playlist-item" data-src="song.mp3">Свага</div>
+            <div class="playlist-item" data-src="song2.mp3">Наследство</div>
+            <div class="playlist-item" data-src="song3.mp3">Vegas</div>
+            <div class="playlist-item" data-src="song4.mp3">Prettygrung</div>
+        </div>
+    </div>
+
+    <!-- Выпадающий прайс-лист -->
+    <div class="price-menu">
+        <button class="price-btn" onclick="togglePriceMenu()">Прайс-лист ▼</button>
+        <div class="price-content" id="priceContent">
+            <div class="price-category">Обучалка реса <span class="price-item">500 ⭐️</span></div>
+            <p>Снос 3-6 <span class="price-item">1300 ⭐️</span></p>
+            <p>Снос доверки <span class="price-item">1400 ⭐️</span></p>
+            <p>Снос корня <span class="price-item">2000 ⭐️</span></p>
+            <p>Снос фриз на 3-6 <span class="price-item">2300 ⭐️</span></p>
+            <p>Поставить 3-6 без анти реса <span class="price-item">2500 ⭐️</span></p>
+            <p>Поставить вип тп <span class="price-item">6000 ⭐️</span></p>
+            <p>Схема вип тп <span class="price-item">15000 ⭐️</span></p>
+            
+            <div class="price-category">Прайсы докса 🛡</div>
+            <p>1 заказ <span class="price-item">250 ⭐️</span></p>
+            <p>Личный бот <span class="price-item">700 ⭐️</span></p>
+            <p>Сносер <span class="price-item">2000 ⭐️</span></p>
+            <p>Сват 1 <span class="price-item">1000 ⭐️</span></p>
+            <p>Спичь и обучалка свата <span class="price-item">3000 ⭐️</span></p>
+            
+            <div class="price-category">Прайсы дефа 💊</div>
+            <p>Тролинг 7 дней <span class="price-item">2000 ⭐️</span></p>
+            <p>Докс деф 7 дней <span class="price-item">2500 ⭐️</span></p>
+            <p>Сват деф 7 дней <span class="price-item">1000 ⭐️</span></p>
+            
+            <div class="price-category">Фул схемы ворка -> <span class="price-item">2700 ⭐️</span></div>
+            <p>Что в него входит, обучалка реса</p>
+            <p>А так же снос 3-6</p>
+            
+            <div class="price-category">Анонимки под ренту на 1 год 💰</div>
+            <p>+888 👑</p>
+            <p>+888 0000 0400 -> <span class="price-item">10000⭐️</span></p>
+            <p>+888 0000 0666 -> <span class="price-item">8000 ⭐️</span></p>
+            <p>+888 0888 7770 -> <span class="price-item">5000 ⭐️</span></p>
+            <p>+888 1111 2669 -> <span class="price-item">4500 ⭐️</span></p>
+            <p>+888 0066 6999 -> <span class="price-item">2500 ⭐️</span></p>
+            
+            <div class="price-category">Красивые номера (🇺🇦) (Не Вирт)</div>
+            <p>e-sim (как перекинуть на физ симку расскажу при покупке)</p>
+            <p>В наличии:</p>
+            <p>380(97)8880102  -> <span class="price-item">130$</span></p>
+            <p>380(68)5556363  -> <span class="price-item">120$</span></p>
+            <p>380(97)0006363  -> <span class="price-item">130$</span></p>
+            <p>380(68)0006363  -> <span class="price-item">120$</span></p>
+            <p>380(97)2280000  -> <span class="price-item">200$</span></p>
+            <p>380(68)0777222 -> <span class="price-item">125$</span></p>
+            <p>380(68)1020222 -> <span class="price-item">125$</span></p>
+            <p>380(68)2333444 -> <span class="price-item">125$</span></p>
+            
+            <p>380(97)0460000  -> <span class="price-item">200$</span></p>
+            <p>380(98)0530000  -> <span class="price-item">170$</span></p>
+            <p>380(96)0820000  -> <span class="price-item">170$</span></p>
+            <p>380(97)0840000  -> <span class="price-item">170$</span></p>
+            <p>380(68)7222000  -> <span class="price-item">130$</span></p>
+            <p>380(97)8887771  -> <span class="price-item">160$</span></p>
+            <p>380(98)0003331  -> <span class="price-item">130$</span></p>
+            <p>380(97)8889990  -> <span class="price-item">150$</span></p>
+            <p>380(68)4446661  -> <span class="price-item">120$</span></p>
+            <p>380(98)1037777  -> <span class="price-item">170$</span></p>
+            <p>380(67)6662323  -> <span class="price-item">125$</span></p>
+            <p>380(68)0075555  -> <span class="price-item">170$</span></p>
+            <p>380(68)7817777  -> <span class="price-item">170$</span></p>
+            <p>380(68)0032222  -> <span class="price-item">170$</span></p>
+            
+            <div class="price-category">Номера до 100$:</div>
+            <p>380(67)8886021 -> <span class="price-item">60$ + тариф (9$)</span></p>
+            <p>380(67)8886601 -> <span class="price-item">55$ + тариф (9$)</span></p>
+            <p>380(68)8886631 -> <span class="price-item">50$ + тариф (9$)</span></p>
+            <p>380(68)0002216 -> <span class="price-item">50$ + тариф (9$)</span></p>
+        </div>
+    </div>
+    
+    <div class="content">
+        <h1>ALUCARD</h1>
+        <p>ESPADA GLOBAL</p>
+        <p>Профессиональные киберуслуги</p>
+        <div class="skills">
+            <p>> Доксер</p>
+            <p>> Сватер</p>
+            <p>> Сносер</p>
+            <p>> Воркер</p>
+        </div>
+        
+        <div class="contact">
+            <p>Контактная информация:</p>
+            <p>Правосудие 𝓐𝓛𝓤𝓒𝓐𝓡𝓓: <a href="https://t.me/ALUCARD_HELLSIN_777">Тык</a></p>
+            <p>Сливы: <a href="https://t.me/+tdT_aoJ9VxA4MjEy">Тык</a></p>
+            <p>Маркет: <a href="https://t.me/BOMJ_F0RTUNA">Тык</a></p>
+        </div>
+        
+        <p class="cursor">_</p>
+    </div>
+    
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "01";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#0f0";
+            ctx.font = fontSize + "px monospace";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(draw, 33);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Функция для выпадающего меню прайсов
+        function togglePriceMenu() {
+            const priceContent = document.getElementById('priceContent');
+            if (priceContent.style.display === 'block') {
+                priceContent.style.display = 'none';
+            } else {
+                priceContent.style.display = 'block';
+            }
+        }
+        
+        // Закрывать меню при клике вне его
+        document.addEventListener('click', function(event) {
+            const priceMenu = document.querySelector('.price-menu');
+            const priceContent = document.getElementById('priceContent');
+            if (!priceMenu.contains(event.target) && priceContent.style.display === 'block') {
+                priceContent.style.display = 'none';
+            }
+        });
+        
+        // Криповый текст "don't close your eyes"
+        function showCreepyText() {
+            const creepy = document.createElement('div');
+            creepy.className = 'creepy-text';
+            creepy.textContent = "don't close your eyes";
+            
+            // Случайная позиция на экране
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 50);
+            
+            creepy.style.left = `${x}px`;
+            creepy.style.top = `${y}px`;
+            
+            document.body.appendChild(creepy);
+            
+            // Удаляем элемент после завершения анимации
+            setTimeout(() => {
+                creepy.remove();
+            }, 5000);
+        }
+        
+        // Показываем криповый текст каждые 30-60 секунд
+        function scheduleCreepyText() {
+            const delay = 30000 + Math.random() * 30000; // 30-60 секунд
+            setTimeout(() => {
+                showCreepyText();
+                scheduleCreepyText();
+            }, delay);
+        }
+        
+        // Начинаем показ крипового текста после загрузки страницы
+        window.addEventListener('load', () => {
+            setTimeout(scheduleCreepyText, 10000); // Первый показ через 10 секунд
+        });
+
+        function hackEffect() {
+            // Проверяем, подключена ли библиотека anime.js
+            if (typeof anime === 'undefined') {
+                console.error('Anime.js library is required for hackEffect()');
+                return;
+            }
+
+            // Создаем контейнер для частиц для лучшей производительности
+            const particlesContainer = document.createElement('div');
+            particlesContainer.style.position = 'fixed';
+            particlesContainer.style.top = '0';
+            particlesContainer.style.left = '0';
+            particlesContainer.style.width = '100%';
+            particlesContainer.style.height = '100%';
+            particlesContainer.style.pointerEvents = 'none';
+            particlesContainer.style.zIndex = '1000';
+            document.body.appendChild(particlesContainer);
+
+            // Создаем взрыв частиц
+            for(let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '5px';
+                particle.style.height = '5px';
+                particle.style.backgroundColor = '#0f0';
+                particle.style.borderRadius = '50%';
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.boxShadow = '0 0 10px #0f0';
+                particlesContainer.appendChild(particle);
+                
+                // Анимация частиц
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 50 + Math.random() * 100;
+                anime({
+                    targets: particle,
+                    translateX: [0, Math.cos(angle) * distance],
+                    translateY: [0, Math.sin(angle) * distance],
+                    opacity: [1, 0],
+                    duration: 1000,
+                    easing: 'easeOutExpo',
+                    complete: () => {
+                        particle.remove();
+                        // Удаляем контейнер, когда все частицы исчезли
+                        if (particlesContainer.children.length === 0) {
+                            particlesContainer.remove();
+                        }
+                    }
+                });
+            }
+            
+            // Эффект "взлома системы" с тряской
+            const content = document.querySelector('.content');
+            content.style.animation = 'none';
+            void content.offsetWidth; // Триггер рефлоу
+            content.style.animation = 'hackShake 0.5s linear';
+            
+            // Добавляем звук с обработкой ошибок
+            try {
+                const audio = new Audio('song.mp3');
+                audio.volume = 0.3;
+                audio.play().catch(e => console.log('Audio playback failed:', e));
+            } catch (e) {
+                console.log('Audio error:', e);
+            }
+        }
+
+        // Автоматический вывод в терминал
+        const terminalLines = [
+            "Initializing system...",
+            "Doxing...",
+            "S.W.A.T ",
+            "DDoS attack",
+            "Def",
+            "System ready"
+        ];
+
+        const terminalOutput = document.getElementById('terminalOutput');
+        const terminalCursor = document.getElementById('terminalCursor');
+
+        let currentLine = 0;
+        let currentChar = 0;
+        let isTyping = false;
+
+        function typeTerminal() {
+            if (currentLine < terminalLines.length) {
+                if (currentChar <= terminalLines[currentLine].length) {
+                    const text = terminalLines[currentLine].substring(0, currentChar);
+                    terminalOutput.innerHTML += `<div class="terminal-line">${text}</div>`;
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    currentChar++;
+                    setTimeout(typeTerminal, Math.random() * 50 + 50);
+                } else {
+                    terminalOutput.innerHTML += '<br>';
+                    currentLine++;
+                    currentChar = 0;
+                    setTimeout(typeTerminal, 500);
+                }
+            } else {
+                terminalCursor.style.animation = 'blink 1s step-end infinite';
+            }
+        }
+
+        // Музыкальный плеер
+        const audio = new Audio();
+        const playBtn = document.getElementById('playBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const progress = document.getElementById('progress');
+        const currentTrack = document.getElementById('currentTrack');
+        const playlistItems = document.querySelectorAll('.playlist-item');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const waveBars = document.querySelectorAll('.wave-bar');
+        const closePlayerBtn = document.getElementById('closePlayer');
+        const musicPlayer = document.getElementById('musicPlayer');
+        const openPlayerBtn = document.getElementById('openPlayerBtn');
+        
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        let waveInterval;
+        
+        // Форматирование времени в минуты:секунды
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        // Анимация волны
+        function animateWave() {
+            waveBars.forEach(bar => {
+                const height = Math.random() * 20 + 5;
+                bar.style.height = `${height}px`;
+            });
+        }
+        
+        // Инициализация плеера
+        function initPlayer() {
+            // Установка первого трека
+            const firstTrack = playlistItems[0];
+            audio.src = firstTrack.getAttribute('data-src');
+            currentTrack.textContent = firstTrack.textContent;
+            firstTrack.classList.add('active');
+            
+            // Обработчики событий
+            playBtn.addEventListener('click', togglePlay);
+            prevBtn.addEventListener('click', prevTrack);
+            nextBtn.addEventListener('click', nextTrack);
+            volumeSlider.addEventListener('input', setVolume);
+            audio.addEventListener('timeupdate', updateProgress);
+            audio.addEventListener('ended', nextTrack);
+            audio.addEventListener('loadedmetadata', updateDuration);
+            closePlayerBtn.addEventListener('click', togglePlayer);
+            openPlayerBtn.addEventListener('click', togglePlayer);
+            
+            // Клики по плейлисту
+            playlistItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    playTrack(index);
+                });
+            });
+            
+            // Запуск анимации волны при воспроизведении
+            audio.addEventListener('play', startWaveAnimation);
+            audio.addEventListener('pause', stopWaveAnimation);
+        }
+        
+        function togglePlayer() {
+            musicPlayer.classList.toggle('active');
+        }
+        
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '▶';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '⏸';
+            }
+            isPlaying = !isPlaying;
+        }
+        
+        function playTrack(index) {
+            // Удаляем активный класс у всех элементов
+            playlistItems.forEach(item => item.classList.remove('active'));
+            
+            // Устанавливаем новый трек
+            currentTrackIndex = index;
+            const track = playlistItems[currentTrackIndex];
+            audio.src = track.getAttribute('data-src');
+            currentTrack.textContent = track.textContent;
+            track.classList.add('active');
+            
+            // Если плеер был запущен, продолжаем воспроизведение
+            if (isPlaying) {
+                audio.play();
+                playBtn.innerHTML = '⏸';
+            }
+        }
+        
+        function prevTrack() {
+            let newIndex = currentTrackIndex - 1;
+            if (newIndex < 0) {
+                newIndex = playlistItems.length - 1;
+            }
+            playTrack(newIndex);
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+        
+        function nextTrack() {
+            let newIndex = currentTrackIndex + 1;
+            if (newIndex >= playlistItems.length) {
+                newIndex = 0;
+            }
+            playTrack(newIndex);
+            if (isPlaying) {
+                audio.play();
+            }
+        }
+        
+        function setVolume() {
+            audio.volume = volumeSlider.value;
+        }
+        
+        function updateProgress() {
+            const { currentTime, duration } = audio;
+            const progressPercent = (currentTime / duration) * 100;
+            progress.style.width = `${progressPercent}%`;
+            currentTimeEl.textContent = formatTime(currentTime);
+        }
+        
+        function updateDuration() {
+            durationEl.textContent = formatTime(audio.duration);
+        }
+        
+        function startWaveAnimation() {
+            stopWaveAnimation();
+            waveInterval = setInterval(animateWave, 100);
+        }
+        
+        function stopWaveAnimation() {
+            clearInterval(waveInterval);
+            waveBars.forEach(bar => {
+                bar.style.height = '5px';
+            });
+        }
+
+        function createNetworkMap() {
+            const map = document.getElementById('networkMap');
+            const nodeCount = 30;
+            const nodes = [];
+            
+            // Создаем узлы
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.style.left = `${Math.random() * 100}%`;
+                node.style.top = `${Math.random() * 100}%`;
+                node.dataset.id = i;
+                map.appendChild(node);
+                nodes.push(node);
+                
+                // Анимация появления узла
+                setTimeout(() => {
+                    anime({
+                        targets: node,
+                        scale: 1,
+                        duration: 1000,
+                        easing: 'easeOutElastic'
+                    });
+                }, i * 100);
+            }
+            
+            // Создаем соединения между узлами
+            for (let i = 0; i < nodeCount; i++) {
+                for (let j = i + 1; j < nodeCount; j++) {
+                    if (Math.random() > 0.7) { // 30% chance to connect
+                        createConnection(nodes[i], nodes[j]);
+                    }
+                }
+            }
+            
+            // Делаем узлы интерактивными
+            nodes.forEach(node => {
+                node.style.pointerEvents = 'auto';
+                node.addEventListener('mouseenter', () => {
+                    anime({
+                        targets: node,
+                        scale: 1.5,
+                        boxShadow: '0 0 20px #0f0',
+                        duration: 300
+                    });
+                    
+                    // Показываем информацию при наведении
+                    showNodeInfo(node);
+                });
+                
+                node.addEventListener('mouseleave', () => {
+                    anime({
+                        targets: node,
+                        scale: 1,
+                        boxShadow: '0 0 10px #0f0',
+                        duration: 300
+                    });
+                });
+            });
+        }
+        
+        function createConnection(node1, node2) {
+            const map = document.getElementById('networkMap');
+            const rect1 = node1.getBoundingClientRect();
+            const rect2 = node2.getBoundingClientRect();
+            
+            const x1 = rect1.left + rect1.width/2;
+            const y1 = rect1.top + rect1.height/2;
+            const x2 = rect2.left + rect2.width/2;
+            const y2 = rect2.top + rect2.height/2;
+            
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            
+            const connection = document.createElement('div');
+            connection.className = 'connection';
+            connection.style.width = `${length}px`;
+            connection.style.left = `${x1}px`;
+            connection.style.top = `${y1}px`;
+            connection.style.transform = `rotate(${angle}deg)`;
+            connection.style.opacity = '0';
+            
+            map.appendChild(connection);
+            
+            // Анимация соединения
+            setTimeout(() => {
+                anime({
+                    targets: connection,
+                    opacity: 0.3,
+                    duration: 1000
+                });
+            }, Math.random() * 1000);
+        }
+        
+        function showNodeInfo(node) {
+            const info = document.createElement('div');
+            info.className = 'cyber-artifact';
+            info.style.left = `${parseInt(node.style.left) + 2}%`;
+            info.style.top = `${parseInt(node.style.top) + 2}%`;
+            
+            const nodeTypes = ['MAINFRAME', 'DATABASE', 'FIREWALL', 'ROUTER', 'SERVER'];
+            const statuses = ['SECURE', 'COMPROMISED', 'VULNERABLE', 'PATCHED'];
+            
+            info.textContent = `NODE_${node.dataset.id}\nTYPE: ${nodeTypes[Math.floor(Math.random() * nodeTypes.length)]}\nSTATUS: ${statuses[Math.floor(Math.random() * statuses.length)]}`;
+            
+            document.body.appendChild(info);
+            
+            anime({
+                targets: info,
+                opacity: [0, 0.8],
+                duration: 500,
+                complete: () => {
+                    setTimeout(() => {
+                        anime({
+                            targets: info,
+                            opacity: 0,
+                            duration: 500,
+                            complete: () => info.remove()
+                        });
+                    }, 2000);
+                }
+            });
+        }
+        
+        // Генерация кибер-артефактов (6-й вариант)
+        function spawnCyberArtifacts() {
+            const artifacts = [
+                "> ACCESS GRANTED",
+                "> PASSWORD: ********",
+                "> ENCRYPTION BYPASSED",
+                "> ROOT PRIVILEGES OBTAINED",
+                "> DATA LEAK DETECTED",
+                "> CONNECTION ESTABLISHED",
+                "> BACKDOOR INSTALLED",
+                "> Firewall disabled",
+                "> Bypassing security...",
+                "> Injecting payload..."
+            ];
+            
+            const artifact = document.createElement('div');
+            artifact.className = 'cyber-artifact';
+            artifact.textContent = artifacts[Math.floor(Math.random() * artifacts.length)];
+            artifact.style.left = `${Math.random() * 90 + 5}%`;
+            artifact.style.top = `${Math.random() * 90 + 5}%`;
+            artifact.style.fontSize = `${Math.random() * 10 + 12}px`;
+            
+            document.body.appendChild(artifact);
+            
+            anime({
+                targets: artifact,
+                opacity: [0, 0.7],
+                duration: 1000,
+                complete: () => {
+                    setTimeout(() => {
+                        anime({
+                            targets: artifact,
+                            opacity: 0,
+                            duration: 1000,
+                            complete: () => artifact.remove()
+                        });
+                    }, 2000);
+                }
+            });
+            
+            setTimeout(spawnCyberArtifacts, Math.random() * 3000 + 1000);
+        }
+        
+        // Увеличиваем частоту появления creepy-text
+        function scheduleCreepyText() {
+            const delay = 10000 + Math.random() * 10000; // 10-20 секунд
+            setTimeout(() => {
+                showCreepyText();
+                scheduleCreepyText();
+            }, delay);
+        }
+        
+        // Инициализация при загрузке
+        window.addEventListener('load', () => {
+            setTimeout(typeTerminal, 1000);
+            setTimeout(scheduleCreepyText, 5000);
+            createNetworkMap();
+            setTimeout(spawnCyberArtifacts, 3000);
+            initPlayer(); // Инициализация музыкального плеера
+        });
+    </script>
+</body>
+</html>
